@@ -1,0 +1,4 @@
+.bundle
+coverage*
+tmp/image
+config/logins.yml
