@@ -1,4 +1,45 @@
-/file/app and /image/app Authorization
+= Digital Stacks Webservice
+Provides access to image and file resources
+
+The ImageService and FileService classes are Sinatra::Base classes that are the entry points into the service.
+
+NOTE:
+This project requires gems that are used internally within Stanford University Libraries.
+
+= International Image Interoperability Framework: Image API 1.0 (IIIF)
+
+This service provides an implementation of the IIIF Image API as defined at
+http://www-sul.stanford.edu/iiif/image-api/
+
+Example URL:
+http://yourhost.edu/image/iiif/abcd1234/80,15,60,75/full/0/native.jpg
+
+
+= Configuration
+
+A Confstruct object is used for application configuration (https://github.com/mbklein/confstruct)
+
+The value of ENV['RACK_ENV'] is used to load a config file from PROJECT_ROOT/config/environments.
+For example, if running the service in the development environment, then there should be a PROJECT_ROOT/config/environments/development.rb file.
+
+It should look like this:
+
+DigiStacks.config.configure do
+  
+  stacks do
+    storage_root '/root/dir/for/content'
+    djatoka_url 'http://djatoka-dev.school.edu/adore-djatoka/resolver'
+    url 'https://stacks-dev.school.edu'
+  end
+  
+  rights do
+    md_service_url 'http://rights-service-dev.school.edu'
+  end
+end
+
+
+
+= /file/app and /image/app Authorization
 You must manually copy a YAML file containing logins and passwords to
 PROJECT_ROOT/config/logins.yml with this format:
 
@@ -12,3 +53,5 @@ https://github.com/daddz/sinatra-rspec-bundler-template.git
 Cleanup of temporary images should be run from cron every 15 minutes
 From cron
 0,15,30,45 * * * bash --login -c 'cd /path/to/digistacks project && ruby ./bin/cleanup_image_cache' > /tmp/image_cleanup.log 2>&1
+
+Copyright (c) 2012 Stanford University Library.  See LICENSE for details.
